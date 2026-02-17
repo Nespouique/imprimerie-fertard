@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.imprimerie-fertard.fr/sitemap.xml
