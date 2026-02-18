@@ -1,8 +1,5 @@
-node_modules/
-package-lock.json
-capture-screenshots.js
+tests/
 screenshots-ancien-site/
 screenshots-responsive/
 SESSION_RESUME.md
-check-*.js
 Fonctionnalités

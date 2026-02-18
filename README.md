@@ -54,7 +54,14 @@ Site single-page avec une esthétique éditoriale premium mêlant héritage impr
 │   └── images/         # Photos d'atelier, logo, hero
 ├── sitemap.xml         # Sitemap pour le SEO
 ├── robots.txt          # Configuration robots
-└── README.md
+├── README.md
+└── tests/              # Scripts de test (gitignored)
+    ├── check-full.js           # Screenshots desktop + mobile
+    ├── check-responsive*.js    # Tests responsive
+    ├── check-burger.js         # Test menu hamburger
+    ├── check-nav.js            # Test navigation
+    ├── check-pro.js            # Test onglet Professionnels
+    └── package.json            # Dépendances de test (puppeteer)
 ```
 
 ## SEO & Accessibilité
@@ -67,30 +74,93 @@ Site single-page avec une esthétique éditoriale premium mêlant héritage impr
 - Focus visible avec outline gold sur `:focus-visible`
 - Champs obligatoires avec `required` et indicateurs visuels `*`
 
-## Déploiement
+## Déploiement (Nginx sur port 80)
 
-Site statique — servir les fichiers avec n'importe quel serveur web (Nginx, Apache, Caddy...).
+Site 100 % statique — aucun build, aucune dépendance serveur. Il suffit de copier les fichiers et configurer Nginx.
 
-Exemple avec Nginx :
+### 1. Copier les fichiers sur le serveur
+
+```bash
+# Depuis la machine locale (adapter le chemin et l'hôte)
+rsync -avz --exclude '.git' --exclude '.claude' \
+  ./ user@serveur:/var/www/imprimerie-fertard/
+```
+
+### 2. Installer Nginx
+
+```bash
+# Debian / Ubuntu
+sudo apt update && sudo apt install -y nginx
+
+# Vérifier que Nginx tourne
+sudo systemctl enable nginx
+sudo systemctl start nginx
+```
+
+### 3. Créer le virtual host
+
+```bash
+sudo nano /etc/nginx/sites-available/imprimerie-fertard
+```
+
+Contenu du fichier :
 
 ```nginx
 server {
     listen 80;
     server_name imprimerie-fertard.fr www.imprimerie-fertard.fr;
+
     root /var/www/imprimerie-fertard;
     index index.html;
 
+    # Encodage UTF-8
+    charset utf-8;
+
+    # Page unique — toutes les routes vers index.html
     location / {
-        try_files $uri $uri/ =404;
+        try_files $uri $uri/ /index.html;
     }
 
-    # Cache des images
-    location /assets/images/ {
+    # Cache long sur les assets statiques
+    location /assets/ {
         expires 30d;
         add_header Cache-Control "public, immutable";
     }
+
+    # Cache CSS/JS (1 semaine)
+    location ~* \.(css|js)$ {
+        expires 7d;
+        add_header Cache-Control "public";
+    }
+
+    # Compression gzip
+    gzip on;
+    gzip_types text/html text/css application/javascript image/svg+xml;
+    gzip_min_length 256;
 }
 ```
+
+### 4. Activer le site et recharger Nginx
+
+```bash
+sudo ln -s /etc/nginx/sites-available/imprimerie-fertard /etc/nginx/sites-enabled/
+
+# Vérifier la syntaxe
+sudo nginx -t
+
+# Recharger
+sudo systemctl reload nginx
+```
+
+### 5. Vérifier
+
+Le site est accessible sur `http://imprimerie-fertard.fr` (port 80).
+
+> **HTTPS (optionnel)** : utiliser [Certbot](https://certbot.eff.org/) pour obtenir un certificat Let's Encrypt gratuit :
+> ```bash
+> sudo apt install certbot python3-certbot-nginx
+> sudo certbot --nginx -d imprimerie-fertard.fr -d www.imprimerie-fertard.fr
+> ```
 
 ## Contact
 
