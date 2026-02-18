@@ -136,6 +136,27 @@
   });
 
   /* ---------- Smooth scroll for anchor links ---------- */
+  var SCROLL_OFFSET = 62;
+
+  function smoothScrollTo(targetEl) {
+    var top = targetEl.getBoundingClientRect().top + window.pageYOffset - SCROLL_OFFSET;
+    window.scrollTo({ top: top, behavior: 'smooth' });
+
+    // Correct position after scroll settles (lazy images may shift layout)
+    var scrollTimer;
+    function onScrollEnd() {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(function () {
+        window.removeEventListener('scroll', onScrollEnd);
+        var corrected = targetEl.getBoundingClientRect().top + window.pageYOffset - SCROLL_OFFSET;
+        if (Math.abs(corrected - window.pageYOffset) > 3) {
+          window.scrollTo({ top: corrected, behavior: 'auto' });
+        }
+      }, 100);
+    }
+    window.addEventListener('scroll', onScrollEnd);
+  }
+
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
       var targetId = this.getAttribute('href');
@@ -144,13 +165,7 @@
       var targetEl = document.querySelector(targetId);
       if (targetEl) {
         e.preventDefault();
-        var navHeight = nav.offsetHeight;
-        var targetPos = targetEl.getBoundingClientRect().top + window.pageYOffset - navHeight;
-
-        window.scrollTo({
-          top: targetPos,
-          behavior: 'smooth'
-        });
+        smoothScrollTo(targetEl);
       }
     });
   });
@@ -220,11 +235,7 @@
       setTimeout(function () {
         var target = document.querySelector('#devis');
         if (target) {
-          var navHeight = nav.offsetHeight;
-          window.scrollTo({
-            top: target.getBoundingClientRect().top + window.pageYOffset - navHeight,
-            behavior: 'smooth'
-          });
+          smoothScrollTo(target);
         }
       }, 300);
     });

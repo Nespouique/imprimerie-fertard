@@ -595,18 +595,30 @@ a:focus-visible, button:focus-visible {
 /* PROCESS BAR                                                                */
 /* ========================================================================== */
 .process {
-  padding: 60px 0;
+  padding: 0 0 40px;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
 }
 
 .process__inner {
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: 48px var(--gutter);
-  background: var(--navy);
+  padding: 40px 36px;
+}
+
+.process__title {
+  font-family: var(--ff-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--navy);
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.process__steps {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
   gap: 0;
 }
 
@@ -624,7 +636,7 @@ a:focus-visible, button:focus-visible {
 .process__icon {
   width: 36px;
   height: 36px;
-  color: var(--gold);
+  color: var(--navy);
   transition: color 0.3s ease;
 }
 
@@ -633,21 +645,21 @@ a:focus-visible, button:focus-visible {
   height: 100%;
 }
 
-.process__step:hover .process__icon { color: var(--gold-light); }
+.process__step:hover .process__icon { color: var(--gold); }
 
 .process__step span {
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-on-dark);
+  color: var(--navy);
   white-space: nowrap;
 }
 
 .process__connector {
   width: 40px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold-muted), transparent);
+  background: linear-gradient(90deg, transparent, var(--navy), transparent);
   flex-shrink: 0;
 }
 
@@ -2052,18 +2064,28 @@ a:focus-visible, button:focus-visible {
 
   .bento__card--img { min-height: 220px; }
 
-  /* Hide product images on mobile — show cards directly */
-  .produits__img { display: none; }
+  /* On mobile, image goes below cards */
+  .produits__img { order: 2; }
+  .produits__cards { order: 1; }
+  .produits__img img { min-height: 200px; max-height: 250px; }
 
   .process__inner {
+    padding: 28px 24px;
+  }
+
+  .process__title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .process__steps {
     flex-direction: column;
-    padding: 32px 24px;
   }
 
   .process__connector {
     width: 1px;
     height: 24px;
-    background: linear-gradient(to bottom, transparent, var(--gold-muted), transparent);
+    background: linear-gradient(to bottom, transparent, var(--navy), transparent);
   }
 
   .process__step {
