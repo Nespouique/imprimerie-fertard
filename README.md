@@ -162,6 +162,29 @@ Le site est accessible sur `http://imprimerie-fertard.fr` (port 80).
 > sudo certbot --nginx -d imprimerie-fertard.fr -d www.imprimerie-fertard.fr
 > ```
 
+## TODO
+
+### Fonctionnalités
+- [ ] Ajouter les tarifs
+- [ ] Rendre le formulaire plus intelligent
+- [ ] Fonctionnalité de me faire rappeler (qui génère un événement google calendar)
+- [ ] Gérer l'envoi du formulaire avec confirmation envoyée sur le mail du client
+- [ ] Dépôt de documents ou de liens
+- [ ] Ajouter une section sur les retours clients (témoignages, avis Google)
+
+### Optimisation
+- [ ] Compresser `hero_nuancier.png` (~2 Mo → WebP ou JPEG optimisé)
+- [ ] Minifier CSS et JS pour la production
+- [ ] Ajouter des dimensions `width`/`height` aux images pour éviter le layout shift (CLS)
+
+### Tests qualité
+- [ ] Tester avec Lighthouse (performance, accessibilité, SEO)
+- [ ] Tester avec un lecteur d'écran
+
+### Contenu
+- [ ] Vérifier/mettre à jour les textes avec le client (descriptions services, produits)
+
+
 ## Contact
 
 - **Adresse** : ZA de la Chauvelière, 35150 Janzé
