@@ -190,4 +190,3 @@ Le site est accessible sur `http://imprimerie-fertard.fr` (port 80).
 - **Adresse** : ZA de la Chauvelière, 35150 Janzé
 - **Téléphone** : 02 99 47 06 74
 - **Email** : ifertard@club-internet.fr
-- **Second site** : Bain-de-Bretagne (35)
